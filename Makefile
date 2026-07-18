@@ -9,7 +9,7 @@ build:
 	cd $(RUNTIME_DIR) && npm run build
 
 typecheck:
-	cd $(RUNTIME_DIR) && npm run build
+	cd $(RUNTIME_DIR) && npm run typecheck
 
 test:
 	cd $(RUNTIME_DIR) && npm test

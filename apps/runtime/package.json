@@ -8,6 +8,10 @@
   "main": "index.js",
   "scripts": {
     "build": "tsc",
+    "typecheck": "tsc --noEmit",
+    "test": "echo \"no tests configured yet\"",
+    "lint": "echo \"no lint configured yet\"",
+    "format:check": "echo \"no formatter configured yet\"",
     "start": "node dist/runtime.js"
   },
   "devDependencies": {
