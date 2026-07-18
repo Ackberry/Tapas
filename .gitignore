@@ -1,6 +1,12 @@
-CLAUDE.md
-docs/roadmap.md
-apps/runtime/node_modules/
+node_modules/
+dist/
 apps/runtime/dist/
-
+coverage/
 .env
+.env.*
+!.env.example
+
+
+# docs
+docs/roadmap.md
+CLAUDE.md

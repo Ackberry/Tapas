@@ -8,12 +8,14 @@
     "rootDir": "src",
     "outDir": "dist",
 
+    "types": ["node"],
+
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
 
     "sourceMap": true,
-    "declaration": true,
+    "declaration": true
   },
-  "include": ["src/**/*.ts"],
+  "include": ["src/**/*.ts"]
 }

@@ -20,4 +20,4 @@ lint:
 format:
 	cd $(RUNTIME_DIR) && npm run format:check
 
-ci: install typecheck lint test build
+ci: install typecheck lint test format build
