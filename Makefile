@@ -1,21 +1,23 @@
 .PHONY: install build typecheck test lint format ci
 
+RUNTIME_DIR := apps/runtime
+
 install:
-	cd apps/runtime && npm install
+	cd $(RUNTIME_DIR) && npm install
 
 build:
-	cd apps/runtime && npm run build
+	cd $(RUNTIME_DIR) && npm run build
 
 typecheck:
-	cd apps/runtime && npm run build
+	cd $(RUNTIME_DIR) && npm run build
 
 test:
-	@echo "No tests configured yet"
+	cd $(RUNTIME_DIR) && npm test
 
 lint:
-	@echo "No lint configured yet"
+	cd $(RUNTIME_DIR) && npm run lint
 
 format:
-	@echo "No formatter configured yet"
+	cd $(RUNTIME_DIR) && npm run format:check
 
-ci: typecheck lint test build
+ci: install typecheck lint test build
