@@ -24,3 +24,7 @@ if (import.meta.url === `file://${process.argv[1]}`) {
   const result = runRuntime({ mode: "healthcheck" });
   console.log(JSON.stringify(result));
 }
+
+export function isRuntimeMode(value: string): value is RuntimeMode {
+  return value === "healthcheck";
+}
