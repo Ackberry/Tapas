@@ -33,21 +33,31 @@ export function unsupportedRuntimeCommand(
   };
 }
 
-export function runRuntime(options: RuntimeOptions): RuntimeResult {
-  if (options.command === "healthcheck") {
-    return {
-      ok: true,
-      service: "tapas-runtime",
-      command: options.command,
-      message: "tapas runtime: ALIVE",
-    };
-  }
+export function runHealthcheck(): RuntimeSuccessResult {
+  return {
+    ok: true,
+    service: "tapas-runtime",
+    command: "healthcheck",
+    message: "tapas runtime: ALIVE",
+  };
+}
+
+export function unimplementedRuntimeCommand(
+  command: RuntimeCommand,
+): RuntimeFailureResult {
   return {
     ok: false,
     service: "tapas-runtime",
-    command: options.command,
+    command,
     error: "Runtime command not implemented",
   };
+}
+
+export function runRuntime(options: RuntimeOptions): RuntimeResult {
+  if (options.command === "healthcheck") {
+    return runHealthcheck();
+  }
+  return unimplementedRuntimeCommand(options.command);
 }
 
 export function isRuntimeCommand(value: string): value is RuntimeCommand {

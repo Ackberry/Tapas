@@ -1,8 +1,10 @@
 import { describe, expect, it } from "vitest";
 import {
   isRuntimeCommand,
+  runHealthcheck,
   runRuntime,
   RUNTIME_COMMANDS,
+  unimplementedRuntimeCommand,
   unsupportedRuntimeCommand,
 } from "./runtime.js";
 
@@ -40,6 +42,24 @@ it("returns not implemented for observe", () => {
 
 it("rejects unknown runtime commands", () => {
   expect(isRuntimeCommand("wrong-command")).toBe(false);
+});
+
+it("returns healthcheck success result", () => {
+  expect(runHealthcheck()).toEqual({
+    ok: true,
+    service: "tapas-runtime",
+    command: "healthcheck",
+    message: "tapas runtime: ALIVE",
+  });
+});
+
+it("returns unimplemented failure for a valid command", () => {
+  expect(unimplementedRuntimeCommand("observe")).toEqual({
+    ok: false,
+    service: "tapas-runtime",
+    command: "observe",
+    error: "Runtime command not implemented",
+  });
 });
 
 it("returns a failure result for unsupported runtime command", () => {
