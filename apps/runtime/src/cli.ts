@@ -1,19 +1,19 @@
 import {
-  getCliMode,
-  isRuntimeMode,
+  getCliCommand,
+  isRuntimeCommand,
   runRuntime,
-  unsupportedRuntimeMode,
+  unsupportedRuntimeCommand,
   type RuntimeResult,
 } from "./runtime.js";
 
 export function runCli(argv: string[]): RuntimeResult {
-  const mode = getCliMode(argv);
+  const command = getCliCommand(argv);
 
   let result: RuntimeResult;
-  if (isRuntimeMode(mode)) {
-    result = runRuntime({ mode });
+  if (isRuntimeCommand(command)) {
+    result = runRuntime({ command });
   } else {
-    result = unsupportedRuntimeMode(mode);
+    result = unsupportedRuntimeCommand(command);
   }
 
   return result;

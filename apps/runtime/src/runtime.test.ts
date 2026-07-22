@@ -1,34 +1,34 @@
 import { describe, expect, it } from "vitest";
 import {
-  isRuntimeMode,
+  isRuntimeCommand,
   runRuntime,
-  unsupportedRuntimeMode,
+  unsupportedRuntimeCommand,
 } from "./runtime.js";
 
 describe("runRuntime", () => {
   it("returns a successful healthcheck result", () => {
-    expect(runRuntime({ mode: "healthcheck" })).toEqual({
+    expect(runRuntime({ command: "healthcheck" })).toEqual({
       ok: true,
       service: "tapas-runtime",
-      mode: "healthcheck",
+      command: "healthcheck",
       message: "tapas runtime: ALIVE",
     });
   });
 });
 
-it("accepts healthcheck as a runtime mode", () => {
-  expect(isRuntimeMode("healthcheck")).toBe(true);
+it("accepts healthcheck as a runtime command", () => {
+  expect(isRuntimeCommand("healthcheck")).toBe(true);
 });
 
-it("rejects unknown runtime modes", () => {
-  expect(isRuntimeMode("wrong-mode")).toBe(false);
+it("rejects unknown runtime commands", () => {
+  expect(isRuntimeCommand("wrong-command")).toBe(false);
 });
 
-it("returns a failure result for unsupported runtime mode", () => {
-  expect(unsupportedRuntimeMode("wrong-mode")).toEqual({
+it("returns a failure result for unsupported runtime command", () => {
+  expect(unsupportedRuntimeCommand("wrong-command")).toEqual({
     ok: false,
     service: "tapas-runtime",
-    mode: "wrong-mode",
-    error: "Unsupported runtime mode",
+    command: "wrong-command",
+    error: "Unsupported runtime command",
   });
 });

@@ -1,21 +1,21 @@
 import { expect, it } from "vitest";
 import { runCli, runCliForProcess } from "./cli.js";
 
-it("no mode provided for CLI check", () => {
+it("defaults to healthcheck when no CLI command is provided", () => {
   expect(runCli(["node", "dist/cli.js"])).toEqual({
     ok: true,
     service: "tapas-runtime",
-    mode: "healthcheck",
+    command: "healthcheck",
     message: "tapas runtime: ALIVE",
   });
 });
 
-it("returns a failure result for an unsupported CLI mode", () => {
-  expect(runCli(["node", "dist/cli.js", "wrong-mode"])).toEqual({
+it("returns a failure result for an unsupported CLI command", () => {
+  expect(runCli(["node", "dist/cli.js", "wrong-command"])).toEqual({
     ok: false,
     service: "tapas-runtime",
-    mode: "wrong-mode",
-    error: "Unsupported runtime mode",
+    command: "wrong-command",
+    error: "Unsupported runtime command",
   });
 });
 
@@ -24,20 +24,20 @@ it("returns JSON output and exit code 0 for healthcheck", () => {
     output: JSON.stringify({
       ok: true,
       service: "tapas-runtime",
-      mode: "healthcheck",
+      command: "healthcheck",
       message: "tapas runtime: ALIVE",
     }),
     exitCode: 0,
   });
 });
 
-it("returns JSON output and exit code 1 for unsupported mode", () => {
-  expect(runCliForProcess(["node", "dist/cli.js", "wrong-mode"])).toEqual({
+it("returns JSON output and exit code 1 for unsupported command", () => {
+  expect(runCliForProcess(["node", "dist/cli.js", "wrong-command"])).toEqual({
     output: JSON.stringify({
       ok: false,
       service: "tapas-runtime",
-      mode: "wrong-mode",
-      error: "Unsupported runtime mode",
+      command: "wrong-command",
+      error: "Unsupported runtime command",
     }),
     exitCode: 1,
   });

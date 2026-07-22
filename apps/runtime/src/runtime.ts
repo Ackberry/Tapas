@@ -1,32 +1,34 @@
-export type RuntimeMode = "healthcheck";
+export type RuntimeCommand = "healthcheck";
 
 export type RuntimeOptions = {
-  mode: RuntimeMode;
+  command: RuntimeCommand;
 };
 
-// Safe success and failure modes for the runtime
+// Safe success and failure commands for the runtime
 export type RuntimeSuccessResult = {
   ok: true;
   service: "tapas-runtime";
-  mode: RuntimeMode;
+  command: RuntimeCommand;
   message: string;
 };
 
 export type RuntimeFailureResult = {
   ok: false;
   service: "tapas-runtime";
-  mode: string;
+  command: string;
   error: string;
 };
 
 export type RuntimeResult = RuntimeSuccessResult | RuntimeFailureResult;
 
-export function unsupportedRuntimeMode(mode: string): RuntimeFailureResult {
+export function unsupportedRuntimeCommand(
+  command: string,
+): RuntimeFailureResult {
   return {
     ok: false,
     service: "tapas-runtime",
-    mode,
-    error: "Unsupported runtime mode",
+    command,
+    error: "Unsupported runtime command",
   };
 }
 
@@ -34,15 +36,15 @@ export function runRuntime(options: RuntimeOptions): RuntimeResult {
   return {
     ok: true,
     service: "tapas-runtime",
-    mode: options.mode,
+    command: options.command,
     message: "tapas runtime: ALIVE",
   };
 }
 
-export function isRuntimeMode(value: string): value is RuntimeMode {
+export function isRuntimeCommand(value: string): value is RuntimeCommand {
   return value === "healthcheck";
 }
 
-export function getCliMode(argv: string[]): string {
+export function getCliCommand(argv: string[]): string {
   return argv[2] ?? "healthcheck";
 }
