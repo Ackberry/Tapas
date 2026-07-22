@@ -19,11 +19,22 @@ export function runCli(argv: string[]): RuntimeResult {
   return result;
 }
 
-if (import.meta.url === `file://${process.argv[1]}`) {
-  const result = runCli(process.argv);
-  console.log(JSON.stringify(result));
+export type CliExitResult = {
+  output: string;
+  exitCode: number;
+};
 
-  if (!result.ok) {
-    process.exitCode = 1;
-  }
+export function runCliForProcess(argv: string[]): CliExitResult {
+  const result = runCli(argv);
+
+  return {
+    output: JSON.stringify(result),
+    exitCode: result.ok ? 0 : 1,
+  };
+}
+
+if (import.meta.url === `file://${process.argv[1]}`) {
+  const result = runCliForProcess(process.argv);
+  console.log(result.output);
+  process.exitCode = result.exitCode;
 }
