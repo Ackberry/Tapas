@@ -21,8 +21,24 @@ export function runRuntime(options: RuntimeOptions): RuntimeResult {
 }
 
 if (import.meta.url === `file://${process.argv[1]}`) {
-  const result = runRuntime({ mode: "healthcheck" });
-  console.log(JSON.stringify(result));
+  const mode = getCliMode(process.argv);
+
+  if (!isRuntimeMode(mode)) {
+    console.log(
+      JSON.stringify({
+        // JSON.stringify converts a js object to json formatted string.
+        ok: false,
+        service: "tapas-runtime",
+        mode,
+        error: "Unsupported runtime mode",
+      }),
+    );
+    process.exitCode = 1; // process.exitCode means let the program finish normally, but then report that it failed.
+  } else {
+    // 0 = success, 1 = failure.
+    const result = runRuntime({ mode });
+    console.log(JSON.stringify(result));
+  }
 }
 
 export function isRuntimeMode(value: string): value is RuntimeMode {
