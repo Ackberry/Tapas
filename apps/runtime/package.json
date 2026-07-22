@@ -13,7 +13,7 @@
     "lint": "eslint .",
     "format:check": "prettier --check .",
     "format": "prettier --write .",
-    "start": "node dist/runtime.js"
+    "start": "node dist/cli.js"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",

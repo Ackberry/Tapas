@@ -2,7 +2,6 @@ import { describe, expect, it } from "vitest";
 import {
   isRuntimeMode,
   runRuntime,
-  getCliMode,
   unsupportedRuntimeMode,
 } from "./runtime.js";
 
@@ -23,14 +22,6 @@ it("accepts healthcheck as a runtime mode", () => {
 
 it("rejects unknown runtime modes", () => {
   expect(isRuntimeMode("wrong-mode")).toBe(false);
-});
-
-it("defaults CLI mode to healthcheck", () => {
-  expect(getCliMode(["node", "runtime.js"])).toBe("healthcheck");
-});
-
-it("reads CLI mode from argv", () => {
-  expect(getCliMode(["node", "runtime.js", "wrong-mode"])).toBe("wrong-mode");
 });
 
 it("returns a failure result for unsupported runtime mode", () => {

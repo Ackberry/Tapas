@@ -39,22 +39,6 @@ export function runRuntime(options: RuntimeOptions): RuntimeResult {
   };
 }
 
-if (import.meta.url === `file://${process.argv[1]}`) {
-  const mode = getCliMode(process.argv);
-
-  let result: RuntimeResult;
-  if (isRuntimeMode(mode)) {
-    result = runRuntime({ mode });
-  } else {
-    result = unsupportedRuntimeMode(mode);
-  }
-
-  console.log(JSON.stringify(result));
-  if (!result.ok) {
-    process.exitCode = 1;
-  }
-}
-
 export function isRuntimeMode(value: string): value is RuntimeMode {
   return value === "healthcheck";
 }
