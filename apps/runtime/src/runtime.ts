@@ -28,3 +28,7 @@ if (import.meta.url === `file://${process.argv[1]}`) {
 export function isRuntimeMode(value: string): value is RuntimeMode {
   return value === "healthcheck";
 }
+
+export function getCliMode(argv: string[]): string {
+  return argv[2] ?? "healthcheck";
+}
