@@ -4,12 +4,31 @@ export type RuntimeOptions = {
   mode: RuntimeMode;
 };
 
-export type RuntimeResult = {
-  ok: boolean;
+// Safe success and failure modes for the runtime
+export type RuntimeSuccessResult = {
+  ok: true;
   service: "tapas-runtime";
   mode: RuntimeMode;
   message: string;
 };
+
+export type RuntimeFailureResult = {
+  ok: false;
+  service: "tapas-runtime";
+  mode: string;
+  error: string;
+};
+
+export type RuntimeResult = RuntimeSuccessResult | RuntimeFailureResult;
+
+export function unsupportedRuntimeMode(mode: string): RuntimeFailureResult {
+  return {
+    ok: false,
+    service: "tapas-runtime",
+    mode,
+    error: "Unsupported runtime mode",
+  };
+}
 
 export function runRuntime(options: RuntimeOptions): RuntimeResult {
   return {
@@ -23,21 +42,16 @@ export function runRuntime(options: RuntimeOptions): RuntimeResult {
 if (import.meta.url === `file://${process.argv[1]}`) {
   const mode = getCliMode(process.argv);
 
-  if (!isRuntimeMode(mode)) {
-    console.log(
-      JSON.stringify({
-        // JSON.stringify converts a js object to json formatted string.
-        ok: false,
-        service: "tapas-runtime",
-        mode,
-        error: "Unsupported runtime mode",
-      }),
-    );
-    process.exitCode = 1; // process.exitCode means let the program finish normally, but then report that it failed.
+  let result: RuntimeResult;
+  if (isRuntimeMode(mode)) {
+    result = runRuntime({ mode });
   } else {
-    // 0 = success, 1 = failure.
-    const result = runRuntime({ mode });
-    console.log(JSON.stringify(result));
+    result = unsupportedRuntimeMode(mode);
+  }
+
+  console.log(JSON.stringify(result));
+  if (!result.ok) {
+    process.exitCode = 1;
   }
 }
 
