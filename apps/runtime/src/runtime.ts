@@ -1,4 +1,5 @@
-export type RuntimeCommand = "healthcheck" | "observe";
+export const RUNTIME_COMMANDS = ["healthcheck", "observe"] as const;
+export type RuntimeCommand = (typeof RUNTIME_COMMANDS)[number];
 
 export type RuntimeOptions = {
   command: RuntimeCommand;
@@ -50,7 +51,7 @@ export function runRuntime(options: RuntimeOptions): RuntimeResult {
 }
 
 export function isRuntimeCommand(value: string): value is RuntimeCommand {
-  return value === "healthcheck" || value === "observe";
+  return RUNTIME_COMMANDS.includes(value as RuntimeCommand);
 }
 
 export function getCliCommand(argv: string[]): string {

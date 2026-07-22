@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import {
   isRuntimeCommand,
   runRuntime,
+  RUNTIME_COMMANDS,
   unsupportedRuntimeCommand,
 } from "./runtime.js";
 
@@ -14,6 +15,10 @@ describe("runRuntime", () => {
       message: "tapas runtime: ALIVE",
     });
   });
+});
+
+it("lists the supported runtime commands", () => {
+  expect(RUNTIME_COMMANDS).toEqual(["healthcheck", "observe"]);
 });
 
 it("accepts healthcheck as a runtime command", () => {
