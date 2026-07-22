@@ -20,6 +20,19 @@ it("accepts healthcheck as a runtime command", () => {
   expect(isRuntimeCommand("healthcheck")).toBe(true);
 });
 
+it("accepts observe as a runtime command", () => {
+  expect(isRuntimeCommand("observe")).toBe(true);
+});
+
+it("returns not implemented for observe", () => {
+  expect(runRuntime({ command: "observe" })).toEqual({
+    ok: false,
+    service: "tapas-runtime",
+    command: "observe",
+    error: "Runtime command not implemented",
+  });
+});
+
 it("rejects unknown runtime commands", () => {
   expect(isRuntimeCommand("wrong-command")).toBe(false);
 });

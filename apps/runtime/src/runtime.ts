@@ -1,4 +1,4 @@
-export type RuntimeCommand = "healthcheck";
+export type RuntimeCommand = "healthcheck" | "observe";
 
 export type RuntimeOptions = {
   command: RuntimeCommand;
@@ -33,16 +33,24 @@ export function unsupportedRuntimeCommand(
 }
 
 export function runRuntime(options: RuntimeOptions): RuntimeResult {
+  if (options.command === "healthcheck") {
+    return {
+      ok: true,
+      service: "tapas-runtime",
+      command: options.command,
+      message: "tapas runtime: ALIVE",
+    };
+  }
   return {
-    ok: true,
+    ok: false,
     service: "tapas-runtime",
     command: options.command,
-    message: "tapas runtime: ALIVE",
+    error: "Runtime command not implemented",
   };
 }
 
 export function isRuntimeCommand(value: string): value is RuntimeCommand {
-  return value === "healthcheck";
+  return value === "healthcheck" || value === "observe";
 }
 
 export function getCliCommand(argv: string[]): string {
