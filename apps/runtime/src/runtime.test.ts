@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import {
   isRuntimeCommand,
   runHealthcheck,
+  runObserve,
   runRuntime,
   RUNTIME_COMMANDS,
   unimplementedRuntimeCommand,
@@ -15,6 +16,17 @@ describe("runRuntime", () => {
       service: "tapas-runtime",
       command: "healthcheck",
       message: "tapas runtime: ALIVE",
+    });
+  });
+  it("returns a successful observe result", () => {
+    expect(runRuntime({ command: "observe" })).toEqual({
+      ok: true,
+      service: "tapas-runtime",
+      command: "observe",
+      page: {
+        url: null,
+        title: null,
+      },
     });
   });
 });
@@ -31,15 +43,6 @@ it("accepts observe as a runtime command", () => {
   expect(isRuntimeCommand("observe")).toBe(true);
 });
 
-it("returns not implemented for observe", () => {
-  expect(runRuntime({ command: "observe" })).toEqual({
-    ok: false,
-    service: "tapas-runtime",
-    command: "observe",
-    error: "Runtime command not implemented",
-  });
-});
-
 it("rejects unknown runtime commands", () => {
   expect(isRuntimeCommand("wrong-command")).toBe(false);
 });
@@ -50,6 +53,18 @@ it("returns healthcheck success result", () => {
     service: "tapas-runtime",
     command: "healthcheck",
     message: "tapas runtime: ALIVE",
+  });
+});
+
+it("returns observe success result", () => {
+  expect(runObserve()).toEqual({
+    ok: true,
+    service: "tapas-runtime",
+    command: "observe",
+    page: {
+      url: null,
+      title: null,
+    },
   });
 });
 

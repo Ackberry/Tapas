@@ -6,11 +6,21 @@ export type RuntimeOptions = {
 };
 
 // Safe success and failure commands for the runtime
-export type RuntimeSuccessResult = {
+export type RuntimeHealthcheckResult = {
   ok: true;
   service: "tapas-runtime";
-  command: RuntimeCommand;
+  command: "healthcheck";
   message: string;
+};
+
+export type RuntimeObserveResult = {
+  ok: true;
+  service: "tapas-runtime";
+  command: "observe";
+  page: {
+    url: string | null;
+    title: string | null;
+  };
 };
 
 export type RuntimeFailureResult = {
@@ -20,7 +30,8 @@ export type RuntimeFailureResult = {
   error: string;
 };
 
-export type RuntimeResult = RuntimeSuccessResult | RuntimeFailureResult;
+export type RuntimeResult =
+  RuntimeHealthcheckResult | RuntimeObserveResult | RuntimeFailureResult;
 
 export function unsupportedRuntimeCommand(
   command: string,
@@ -33,12 +44,24 @@ export function unsupportedRuntimeCommand(
   };
 }
 
-export function runHealthcheck(): RuntimeSuccessResult {
+export function runHealthcheck(): RuntimeHealthcheckResult {
   return {
     ok: true,
     service: "tapas-runtime",
     command: "healthcheck",
     message: "tapas runtime: ALIVE",
+  };
+}
+
+export function runObserve(): RuntimeObserveResult {
+  return {
+    ok: true,
+    service: "tapas-runtime",
+    command: "observe",
+    page: {
+      url: null,
+      title: null,
+    },
   };
 }
 
@@ -56,6 +79,10 @@ export function unimplementedRuntimeCommand(
 export function runRuntime(options: RuntimeOptions): RuntimeResult {
   if (options.command === "healthcheck") {
     return runHealthcheck();
+  }
+
+  if (options.command === "observe") {
+    return runObserve();
   }
   return unimplementedRuntimeCommand(options.command);
 }
