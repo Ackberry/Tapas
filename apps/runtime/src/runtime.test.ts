@@ -8,6 +8,8 @@ import {
   unimplementedRuntimeCommand,
   unsupportedRuntimeCommand,
   emptyPageSnapshot,
+  runObserveWithProvider,
+  createPageSnapshot,
 } from "./runtime.js";
 
 describe("runRuntime", () => {
@@ -96,16 +98,30 @@ it("returns an empty page snapshot", () => {
 
 it("returns a provided page snapshot to observe", () => {
   expect(
-    runObserve({
-      url: "example.com",
-      title: "Example",
-    }),
+    runObserve(createPageSnapshot("https://example.com", "Example")),
   ).toEqual({
     ok: true,
     service: "tapas-runtime",
     command: "observe",
     page: {
-      url: "example.com",
+      url: "https://example.com",
+      title: "Example",
+    },
+  });
+});
+
+it("returns observe result from a page snapshot provider", () => {
+  expect(
+    runObserveWithProvider(() => ({
+      url: "https://example.com",
+      title: "Example",
+    })),
+  ).toEqual({
+    ok: true,
+    service: "tapas-runtime",
+    command: "observe",
+    page: {
+      url: "https://example.com",
       title: "Example",
     },
   });

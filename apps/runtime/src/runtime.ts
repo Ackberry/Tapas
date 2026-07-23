@@ -18,10 +18,28 @@ export type PageSnapshot = {
   title: string | null;
 };
 
+export type PageSnapshotProvider = () => PageSnapshot;
+
+export function runObserveWithProvider(
+  getSnapshot: PageSnapshotProvider,
+): RuntimeObserveResult {
+  return runObserve(getSnapshot());
+}
+
 export function emptyPageSnapshot(): PageSnapshot {
   return {
     url: null,
     title: null,
+  };
+}
+
+export function createPageSnapshot(
+  url: string | null,
+  title: string | null,
+): PageSnapshot {
+  return {
+    url,
+    title,
   };
 }
 
