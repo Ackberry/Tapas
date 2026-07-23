@@ -13,14 +13,23 @@ export type RuntimeHealthcheckResult = {
   message: string;
 };
 
+export type PageSnapshot = {
+  url: string | null;
+  title: string | null;
+};
+
+export function emptyPageSnapshot(): PageSnapshot {
+  return {
+    url: null,
+    title: null,
+  };
+}
+
 export type RuntimeObserveResult = {
   ok: true;
   service: "tapas-runtime";
   command: "observe";
-  page: {
-    url: string | null;
-    title: string | null;
-  };
+  page: PageSnapshot;
 };
 
 export type RuntimeFailureResult = {
@@ -58,10 +67,7 @@ export function runObserve(): RuntimeObserveResult {
     ok: true,
     service: "tapas-runtime",
     command: "observe",
-    page: {
-      url: null,
-      title: null,
-    },
+    page: emptyPageSnapshot(),
   };
 }
 

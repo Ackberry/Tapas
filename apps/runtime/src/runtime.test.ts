@@ -7,6 +7,7 @@ import {
   RUNTIME_COMMANDS,
   unimplementedRuntimeCommand,
   unsupportedRuntimeCommand,
+  emptyPageSnapshot,
 } from "./runtime.js";
 
 describe("runRuntime", () => {
@@ -83,5 +84,12 @@ it("returns a failure result for unsupported runtime command", () => {
     service: "tapas-runtime",
     command: "wrong-command",
     error: "Unsupported runtime command",
+  });
+});
+
+it("returns an empty page snapshot", () => {
+  expect(emptyPageSnapshot()).toEqual({
+    url: null,
+    title: null,
   });
 });
