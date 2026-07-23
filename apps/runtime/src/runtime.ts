@@ -1,3 +1,9 @@
+import {
+  emptyPageSnapshot,
+  type PageSnapshot,
+  type PageSnapshotProvider,
+} from "./pageSnapshot.js";
+
 export const RUNTIME_COMMANDS = ["healthcheck", "observe"] as const;
 export type RuntimeCommand = (typeof RUNTIME_COMMANDS)[number];
 
@@ -12,36 +18,6 @@ export type RuntimeHealthcheckResult = {
   command: "healthcheck";
   message: string;
 };
-
-export type PageSnapshot = {
-  url: string | null;
-  title: string | null;
-};
-
-export type PageSnapshotProvider = () => PageSnapshot;
-
-export function runObserveWithProvider(
-  getSnapshot: PageSnapshotProvider,
-): RuntimeObserveResult {
-  return runObserve(getSnapshot());
-}
-
-export function emptyPageSnapshot(): PageSnapshot {
-  return {
-    url: null,
-    title: null,
-  };
-}
-
-export function createPageSnapshot(
-  url: string | null,
-  title: string | null,
-): PageSnapshot {
-  return {
-    url,
-    title,
-  };
-}
 
 export type RuntimeObserveResult = {
   ok: true;
@@ -89,6 +65,12 @@ export function runObserve(
     command: "observe",
     page,
   };
+}
+
+export function runObserveWithProvider(
+  getSnapshot: PageSnapshotProvider,
+): RuntimeObserveResult {
+  return runObserve(getSnapshot());
 }
 
 export function unimplementedRuntimeCommand(

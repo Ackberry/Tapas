@@ -7,10 +7,10 @@ import {
   RUNTIME_COMMANDS,
   unimplementedRuntimeCommand,
   unsupportedRuntimeCommand,
-  emptyPageSnapshot,
   runObserveWithProvider,
-  createPageSnapshot,
 } from "./runtime.js";
+
+import { emptyPageSnapshot, createPageSnapshot } from "./pageSnapshot.js";
 
 describe("runRuntime", () => {
   it("returns a successful healthcheck result", () => {
