@@ -93,3 +93,20 @@ it("returns an empty page snapshot", () => {
     title: null,
   });
 });
+
+it("returns a provided page snapshot to observe", () => {
+  expect(
+    runObserve({
+      url: "example.com",
+      title: "Example",
+    }),
+  ).toEqual({
+    ok: true,
+    service: "tapas-runtime",
+    command: "observe",
+    page: {
+      url: "example.com",
+      title: "Example",
+    },
+  });
+});

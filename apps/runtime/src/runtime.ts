@@ -62,12 +62,14 @@ export function runHealthcheck(): RuntimeHealthcheckResult {
   };
 }
 
-export function runObserve(): RuntimeObserveResult {
+export function runObserve(
+  page: PageSnapshot = emptyPageSnapshot(),
+): RuntimeObserveResult {
   return {
     ok: true,
     service: "tapas-runtime",
     command: "observe",
-    page: emptyPageSnapshot(),
+    page,
   };
 }
 
